@@ -1,20 +1,23 @@
 package com.epicwindmill.decomposekmmnavigationsample.components.tabs.second.screenb2
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.backhandler.BackCallback
 
-class ScreenB2Component (
+class ScreenB2Component(
     private val componentContext: ComponentContext,
-    private val onFinished: (result: Int) -> Unit
+    private val onFinished: () -> Unit
 ) : IScreenB2, ComponentContext by componentContext {
 
+    private val backCallback = BackCallback { onFinished() }
+
     init {
-        backPressedHandler.register(::onBackPressed)
+        backHandler.register(backCallback)
     }
 
     // Used by iOS
     override fun onBackClicked() {
         // Return a result to the previous component
-        onFinished(1234)
+        onFinished()
     }
 
     // Used by Android

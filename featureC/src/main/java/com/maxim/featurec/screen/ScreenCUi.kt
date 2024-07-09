@@ -3,8 +3,7 @@ package com.epicwindmill.decomposekmmnavigationsample.android.ui.screens.tabs.th
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.extensions.compose.jetpack.Children
-import com.arkivanov.decompose.extensions.compose.jetpack.animation.child.crossfade
+import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.epicwindmill.decomposekmmnavigationsample.components.tabs.third.IScreenC
 
 @ExperimentalComposeUiApi
@@ -12,8 +11,7 @@ import com.epicwindmill.decomposekmmnavigationsample.components.tabs.third.IScre
 @Composable
 fun ScreenCUi(component: IScreenC) {
     Children(
-        routerState = component.routerState,
-        animation = crossfade()
+        stack = component.stack
     ) {
         when (val child = it.instance) {
             is IScreenC.Child.ScreenC1 -> ScreenC1Ui(child.component)

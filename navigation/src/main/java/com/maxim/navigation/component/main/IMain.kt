@@ -1,6 +1,6 @@
 package com.epicwindmill.decomposekmmnavigationsample.components.main
 
-import com.arkivanov.decompose.router.RouterState
+import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import com.epicwindmill.decomposekmmnavigationsample.components.tabs.first.IScreenA
 import com.epicwindmill.decomposekmmnavigationsample.components.tabs.second.IScreenB
@@ -8,8 +8,8 @@ import com.epicwindmill.decomposekmmnavigationsample.components.tabs.third.IScre
 
 interface IMain {
 
-    val routerState: Value<RouterState<*, Child>>
-    val model: Value<Model>
+    val stack: Value<ChildStack<*, Child>>
+    //val model: Value<Model>
 
     fun onTabClick(tab: Tab)
 

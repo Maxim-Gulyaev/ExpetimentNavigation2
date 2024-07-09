@@ -3,7 +3,6 @@ package com.epicwindmill.decomposekmmnavigationsample.components.tabs.third.scre
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.decompose.value.reduce
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import com.arkivanov.essenty.statekeeper.consume
@@ -22,9 +21,9 @@ class ScreenC1Component(
 
     init {
         stateKeeper.register("SAVED_STATE") { state }
-        _model.reduce {
+        /*_model.reduce {
             it.copy(magicNumber = state.magicNumber)
-        }
+        }*/
     }
 
     override fun navigateToC2Clicked() {
@@ -33,9 +32,9 @@ class ScreenC1Component(
 
     override fun onResult(value: Int) {
         state = State(magicNumber = value)
-        _model.reduce {
+        /*_model.reduce {
             it.copy(magicNumber = state.magicNumber)
-        }
+        }*/
     }
 
     @Parcelize

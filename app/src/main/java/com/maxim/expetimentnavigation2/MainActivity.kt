@@ -9,13 +9,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.defaultComponentContext
 import com.epicwindmill.decomposekmmnavigationsample.android.ui.screens.RootUi
 import com.epicwindmill.decomposekmmnavigationsample.components.root.RootComponent
 import com.maxim.expetimentnavigation2.ui.theme.ExpetimentNavigation2Theme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalComposeUiApi::class, ExperimentalDecomposeApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

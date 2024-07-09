@@ -1,14 +1,17 @@
 package com.epicwindmill.decomposekmmnavigationsample.android.ui.screens.tabs.first
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.epicwindmill.decomposekmmnavigationsample.components.tabs.first.screena1.IScreenA1
 
 @Composable
 fun ScreenA1Ui(component: IScreenA1) {

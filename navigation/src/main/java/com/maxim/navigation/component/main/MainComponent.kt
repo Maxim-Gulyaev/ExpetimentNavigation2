@@ -1,8 +1,10 @@
 package com.epicwindmill.decomposekmmnavigationsample.components.main
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.RouterState
-import com.arkivanov.decompose.router.router
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
 import com.arkivanov.essenty.parcelable.Parcelable
@@ -13,27 +15,33 @@ import com.epicwindmill.decomposekmmnavigationsample.components.tabs.second.IScr
 import com.epicwindmill.decomposekmmnavigationsample.components.tabs.second.ScreenBComponent
 import com.epicwindmill.decomposekmmnavigationsample.components.tabs.third.IScreenC
 import com.epicwindmill.decomposekmmnavigationsample.components.tabs.third.ScreenCComponent
-import com.epicwindmill.decomposekmmnavigationsample.utils.navigateSingleTop
 
 class MainComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext, /*override val model: Value<IMain.Model>*/
 ) : IMain, ComponentContext by componentContext {
 
-    private val router =
+    /*private val router =
         router<Config, IMain.Child>(
             initialConfiguration = Config.ScreenA,
             handleBackButton = true,
             childFactory = ::createChild
-        )
+        )*/
 
-    override val routerState: Value<RouterState<*, IMain.Child>> = router.state
+    private val navigation = StackNavigation<Config>()
 
-    override val model: Value<IMain.Model> =
+    override val stack: Value<ChildStack<*, IMain.Child>> = childStack(
+        source = navigation,
+        initialConfiguration = Config.ScreenA,
+        handleBackButton = true,
+        childFactory = ::createChild
+    )
+
+    /*override val model: Value<IMain.Model> =
         router.state.map { state ->
             IMain.Model(
                 selectedTab = state.activeChild.configuration.toTab()
             )
-        }
+        }*/
 
     private fun createChild(config: Config, componentContext: ComponentContext): IMain.Child =
         when (config) {
@@ -53,9 +61,9 @@ class MainComponent(
 
     override fun onTabClick(tab: IMain.Tab): Unit =
         when (tab) {
-            IMain.Tab.A -> router.navigateSingleTop(config = {Config.ScreenA})
-            IMain.Tab.B -> router.navigateSingleTop(config = {Config.ScreenB})
-            IMain.Tab.C -> router.navigateSingleTop(config = {Config.ScreenC})
+            IMain.Tab.A -> navigation.push(Config.ScreenA)
+            IMain.Tab.B -> navigation.push(Config.ScreenB)
+            IMain.Tab.C -> navigation.push(Config.ScreenC)
         }
 
     private fun Config.toTab(): IMain.Tab =
@@ -67,12 +75,12 @@ class MainComponent(
 
     private sealed class Config : Parcelable {
         @Parcelize
-        object ScreenA : Config()
+        data object ScreenA : Config()
 
         @Parcelize
-        object ScreenB : Config()
+        data object ScreenB : Config()
 
         @Parcelize
-        object ScreenC : Config()
+        data object ScreenC : Config()
     }
 }

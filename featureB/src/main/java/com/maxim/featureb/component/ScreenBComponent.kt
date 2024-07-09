@@ -1,10 +1,11 @@
 package com.epicwindmill.decomposekmmnavigationsample.components.tabs.second
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.RouterState
-import com.arkivanov.decompose.router.pop
-import com.arkivanov.decompose.router.push
-import com.arkivanov.decompose.router.router
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
@@ -17,14 +18,23 @@ class ScreenBComponent(
     componentContext: ComponentContext
 ) : IScreenB, ComponentContext by componentContext {
 
-    private val router =
+    private val navigation = StackNavigation<Config>()
+
+    /*private val router =
         router<Config, IScreenB.Child>(
             initialConfiguration = Config.ScreenB1,
             handleBackButton = true,
             childFactory = ::createChild
-        )
+        )*/
 
-    override val routerState: Value<RouterState<*, IScreenB.Child>> = router.state
+    override val stack: Value<ChildStack<*, IScreenB.Child>> = childStack(
+        source = navigation,
+        initialConfiguration = Config.ScreenB1,
+        handleBackButton = true,
+        childFactory = ::createChild
+    )
+
+    //override val routerState: Value<RouterState<*, IScreenB.Child>> = router.state
 
     private fun createChild(config: Config, componentContext: ComponentContext): IScreenB.Child =
         when (config) {
@@ -34,15 +44,14 @@ class ScreenBComponent(
 
     private fun screenB1(componentContext: ComponentContext): IScreenB1 =
         ScreenB1Component(componentContext) {
-            router.push(Config.ScreenB2)
+            navigation.push(Config.ScreenB2)
         }
 
     private fun screenB2(componentContext: ComponentContext): IScreenB2 =
         ScreenB2Component(componentContext, onFinished = {
-            result ->
-            router.pop()
+            navigation.pop()
             // The new active child should be Screen B1
-            (router.state.value.activeChild.instance as IScreenB.Child.ScreenB1).component.onResult(result)
+            //(stack.value.active.instance as IScreenB.Child.ScreenB1).component.onResult(result)
         })
 
     private sealed class Config : Parcelable {
